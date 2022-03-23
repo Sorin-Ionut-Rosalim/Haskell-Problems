@@ -1,0 +1,34 @@
+```haskell
+-- (HW1)
+
+-- 1
+improve3::Double->Double->Double
+improve3 0 _ = 1.0
+improve3 n a = ((2 * n) + (a / (n)^2))/3
+
+-- 2
+good::Double->Double->Double->Bool
+good x a eps 
+   | eps < 0 = False
+   | abs(x^3 - a) <= eps = True
+   | otherwise = False
+
+-- 3
+newtonIter::Double->Double->Double->Double
+newtonIter x a eps
+   | good x a eps = x
+   | otherwise = newtonIter (improve3 (x+1) a) a eps
+
+sqrt3Newton::Double->Double->Double
+sqrt3Newton a eps =
+   let improve3 n a 
+             | n == 0 = 1.0
+             | otherwise = ((2 * n) + (a / (n)^2))/3
+       good x a eps 
+             | eps < 0 = False
+             | abs(x^3 - a) <= eps = True
+             | otherwise = False
+       newtonIter x a eps
+             | good x a eps  = x
+             | otherwise = newtonIter ( improve3 x a) a eps
+    in newtonIter 1 a eps
